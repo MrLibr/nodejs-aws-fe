@@ -29,6 +29,7 @@ export default function CartItems({items, isEditable}: CartItemsProps) {
   const classes = useStyles();
 
   const totalPrice: number = items.reduce((total, item) => (item.count * item.product.price + total), 0);
+  const currency: string = items[0].product.currency;
 
   return (
     <>
@@ -38,7 +39,7 @@ export default function CartItems({items, isEditable}: CartItemsProps) {
             {isEditable && <AddProductToCart product={cartItem.product}/>}
             <ListItemText primary={cartItem.product.title} secondary={cartItem.product.description}/>
             <Typography
-              variant="body2">{formatAsPrice(cartItem.product.price)} x {cartItem.count} = {formatAsPrice(cartItem.product.price * cartItem.count)}</Typography>
+              variant="body2">{formatAsPrice(cartItem.product.price, cartItem.product.currency)} x {cartItem.count} = {formatAsPrice(cartItem.product.price * cartItem.count, cartItem.product.currency)}</Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
@@ -49,7 +50,7 @@ export default function CartItems({items, isEditable}: CartItemsProps) {
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total"/>
           <Typography variant="subtitle1" className={classes.total}>
-            {formatAsPrice(totalPrice)}
+            {formatAsPrice(totalPrice, currency)}
           </Typography>
         </ListItem>
       </List>
